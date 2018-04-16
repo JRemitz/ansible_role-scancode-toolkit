@@ -8,7 +8,7 @@ This ansible role will install [scancode-toolkit](https://github.com/nexB/scanco
 Requirements
 ------------
 
-Python 2.7 is a dependency.
+Python 2.7.
 
 Role Variables
 --------------
