@@ -13,7 +13,7 @@ Python 2.7 is a dependency.
 Role Variables
 --------------
 
-See (/defaults/main.yml)[/defaults/main.yml] for all variables.  
+See [/defaults/main.yml](/defaults/main.yml) for all variables.  
 
 Directory to install scancode.
 
