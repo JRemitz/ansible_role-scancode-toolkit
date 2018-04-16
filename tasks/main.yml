@@ -1,0 +1,79 @@
+---
+- name: initialize {{ ansible_os_family }} vars
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: install {{ ansible_os_family }} packages
+  package:
+    name: "{{ item }}"
+  with_items: "{{ scancode_tk_packages }}"
+
+- name: create installation directory
+  file: 
+    path: "{{ scancode_tk_install_dir }}"
+    state: directory
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    mode: "0755"
+
+- name: download scancode-toolkit release
+  get_url: 
+    url: https://github.com/nexB/scancode-toolkit/releases/download/v{{ scancode_tk_version }}/scancode-toolkit-{{ scancode_tk_version }}.tar.bz2
+    dest: "{{ scancode_tk_install_dir }}"
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    mode: 0600
+  register: scancode_tk_zip
+
+- name: unzip scancode-toolkit
+  unarchive:
+    src: "{{ scancode_tk_zip.dest }}"
+    dest: "{{ scancode_tk_install_dir }}"
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    creates: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
+  when: scancode_tk_zip is defined and scancode_tk_zip.dest is defined 
+
+- name: set sticky bit
+  file:
+    path: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
+    mode: u=rwx,g=rwX,o=rX,g+s
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    state: directory
+    recurse: true
+
+- name: initialize scancode-toolkit
+  command: sh configure etc/conf
+  args:
+    chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
+    creates: "bin"
+  when: scancode_tk_initialize
+
+- name: update read permissions for group
+  file:
+    path: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
+    mode: u=rwx,g=rwX,o=rX,g+s
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    state: directory
+
+#- name: update permissions for scancode-toolkit
+#  command: chgrp {{ scancode_tk_group }} ./*
+#  args:
+#    chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/bin"
+#  changed_when: false
+
+#- name: update permissions for scancode-toolkit
+#  command: chmod +r ./* ;
+#  args:
+#    chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/bin"
+#  changed_when: false
+
+- name: create symbolic link in path
+  become: true
+  file:
+    src: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/scancode"
+    path: "{{ scancode_tk_bin_path }}"
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    state: link

@@ -1,0 +1,13 @@
+---
+scancode_tk_packages:
+  - gcc
+  - tar
+  - python
+  - python-dev 
+  - bzip2
+  - bzip2-dev
+  - xz-libs
+  - zlib
+  - libxml2-dev 
+  - libxslt-dev
+  - musl-dev

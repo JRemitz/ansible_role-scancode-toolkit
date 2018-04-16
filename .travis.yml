@@ -1,0 +1,26 @@
+---
+services: docker
+
+env:
+  - distro: centos7
+  - distro: debian9
+  - distro: ubuntu1604
+
+script:
+  # Configure test script so we can run extra tests after playbook is run.
+  - export container_id=$(date +%s)
+  - export cleanup=false
+
+  # Download test shim.
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/JRemitz/df9dc3c3c3508fd859422af65b86b08a/raw/ce58c686dc6e80fc710f3b2c358751cf5e30811b/ansible_test.sh
+  - chmod +x ${PWD}/tests/test.sh
+
+  # Run tests.
+  - ${PWD}/tests/test.sh
+
+  # Make sure scancode is accessible
+  - 'docker exec --tty ${container_id} env TERM=xterm scancode --help > /tmp/scancode.out'
+
+
+notifications:
+webhooks: https://galaxy.ansible.com/api/v1/notifications/

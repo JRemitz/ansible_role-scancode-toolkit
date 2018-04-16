@@ -1,0 +1,10 @@
+---
+scancode_tk_packages:
+  - python
+  - python-devel 
+  - zlib 
+  - bzip2
+  - bzip2-libs 
+  - xz-libs 
+  - libxml2-devel 
+  - libxslt-devel
