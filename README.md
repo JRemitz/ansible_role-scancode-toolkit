@@ -1,6 +1,7 @@
 ansible_role-scancode-toolkit
 =========
 
+[![Build Status](https://travis-ci.org/JRemitz/ansible_role-scancode-toolkit.svg?branch=master)](https://travis-ci.org/JRemitz/ansible_role-scancode-toolkit)
 This ansible role will install (scancode-toolkit)[https://github.com/nexB/scancode-toolkit].
 
 Requirements
