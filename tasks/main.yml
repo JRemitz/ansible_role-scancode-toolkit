@@ -40,7 +40,6 @@
     owner: "{{ scancode_tk_owner }}"
     group: "{{ scancode_tk_group }}"
     state: directory
-    recurse: true
 
 - name: initialize scancode-toolkit
   command: sh configure etc/conf
@@ -48,26 +47,6 @@
     chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
     creates: "bin"
   when: scancode_tk_initialize
-
-- name: update read permissions for group
-  file:
-    path: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
-    mode: u=rwx,g=rwX,o=rX,g+s
-    owner: "{{ scancode_tk_owner }}"
-    group: "{{ scancode_tk_group }}"
-    state: directory
-
-#- name: update permissions for scancode-toolkit
-#  command: chgrp {{ scancode_tk_group }} ./*
-#  args:
-#    chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/bin"
-#  changed_when: false
-
-#- name: update permissions for scancode-toolkit
-#  command: chmod +r ./* ;
-#  args:
-#    chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/bin"
-#  changed_when: false
 
 - name: create symbolic link in path
   become: true
