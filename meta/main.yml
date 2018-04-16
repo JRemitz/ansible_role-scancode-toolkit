@@ -33,7 +33,7 @@ galaxy_info:
   # platforms is a list of platforms, and each platform has a name and a list of versions.
   #
   platforms:
-  - name: Centos
+  - name: EL
     versions:
     - 7
   - name: Ubuntu
@@ -41,7 +41,7 @@ galaxy_info:
     - all
   - name: Debian
     versions:
-    - 9
+    - all
 
   galaxy_tags: 
   - opensource
