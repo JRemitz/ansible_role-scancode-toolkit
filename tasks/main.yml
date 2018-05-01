@@ -42,17 +42,28 @@
     state: directory
 
 - name: initialize scancode-toolkit
-  command: sh configure etc/conf
+  become: true
+  become_user: "{{ scancode_tk_owner }}"
+  command: "{{ scancode_tk_init_cmd }}"
   args:
     chdir: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}"
     creates: "bin"
   when: scancode_tk_initialize
 
-- name: create symbolic link in path
+- name: create symbolic link in path - scancode
   become: true
   file:
     src: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/scancode"
     path: "{{ scancode_tk_bin_path }}"
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    state: link
+
+- name: create symbolic link in path - extractcode
+  become: true
+  file:
+    src: "{{ scancode_tk_install_dir }}/scancode-toolkit-{{ scancode_tk_version }}/extractcode"
+    path: "{{ extractcode_tk_bin_path }}"
     owner: "{{ scancode_tk_owner }}"
     group: "{{ scancode_tk_group }}"
     state: link

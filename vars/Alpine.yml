@@ -11,3 +11,5 @@ scancode_tk_packages:
   - libxml2-dev 
   - libxslt-dev
   - musl-dev
+
+scancode_tk_init_cmd: sh configure etc/conf

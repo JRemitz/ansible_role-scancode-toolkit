@@ -3,8 +3,11 @@ scancode_tk_packages:
   - python
   - python-dev 
   - bzip2
+  - unzip
   - libbz2-1.0 
   - xz-utils 
   - zlib1g 
   - libxml2-dev 
   - libxslt1-dev
+
+scancode_tk_init_cmd: sh scancode --help

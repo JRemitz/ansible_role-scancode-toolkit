@@ -5,6 +5,9 @@ scancode_tk_packages:
   - zlib 
   - bzip2
   - bzip2-libs 
+  - unzip
   - xz-libs 
   - libxml2-devel 
   - libxslt-devel
+
+scancode_tk_init_cmd: sh scancode --help
