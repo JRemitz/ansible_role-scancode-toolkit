@@ -67,3 +67,13 @@
     owner: "{{ scancode_tk_owner }}"
     group: "{{ scancode_tk_group }}"
     state: link
+
+- name: create symbolic link for libbz2.so.1 in RedHat distros
+  become: true
+  file:
+    src: /lib64/libbz2.so.1 
+    path: /lib64/libbz2.so.1.0
+    owner: "{{ scancode_tk_owner }}"
+    group: "{{ scancode_tk_group }}"
+    state: link
+  when: ansible_os_family == "RedHat"
